@@ -1,9 +1,12 @@
-// “Ç‚İ‚ñ‚¾CSVƒf[ƒ^‚ğ“ñŸŒ³”z—ñ‚É•ÏŠ·‚·‚éŠÖ”convertCSVtoArray()‚Ì’è‹`
-function convertCSVtoArray(str) { // “Ç‚İ‚ñ‚¾CSVƒf[ƒ^‚ª•¶š—ñ‚Æ‚µ‚Ä“n‚³‚ê‚é
-    //var table = []; // ÅI“I‚È“ñŸŒ³”z—ñ‚ğ“ü‚ê‚é‚½‚ß‚Ì”z—ñ
-    var tmp = str.split("\n"); // ‰üs‚ğ‹æØ‚è•¶š‚Æ‚µ‚Äs‚ğ—v‘f‚Æ‚µ‚½”z—ñ‚ğ¶¬
+var CSV_FILE = "sample.csv";
+var req = new XMLHttpRequest(); // HTTPã§ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ãŸã‚ã®XMLHttpRrequestã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆ
 
-    // Šes‚²‚Æ‚ÉƒJƒ“ƒ}‚Å‹æØ‚Á‚½•¶š—ñ‚ğ—v‘f‚Æ‚µ‚½“ñŸŒ³”z—ñ‚ğ¶¬
+// èª­ã¿è¾¼ã‚“ã CSVãƒ‡ãƒ¼ã‚¿ã‚’äºŒæ¬¡å…ƒé…åˆ—ã«å¤‰æ›ã™ã‚‹é–¢æ•°convertCSVtoArray()ã®å®šç¾©
+function convertCSVtoArray(str) { // èª­ã¿è¾¼ã‚“ã CSVãƒ‡ãƒ¼ã‚¿ãŒæ–‡å­—åˆ—ã¨ã—ã¦æ¸¡ã•ã‚Œã‚‹
+    var table = []; // æœ€çµ‚çš„ãªäºŒæ¬¡å…ƒé…åˆ—ã‚’å…¥ã‚Œã‚‹ãŸã‚ã®é…åˆ—
+    var tmp = str.split("\n"); // æ”¹è¡Œã‚’åŒºåˆ‡ã‚Šæ–‡å­—ã¨ã—ã¦è¡Œã‚’è¦ç´ ã¨ã—ãŸé…åˆ—ã‚’ç”Ÿæˆ
+
+    // å„è¡Œã”ã¨ã«ã‚«ãƒ³ãƒã§åŒºåˆ‡ã£ãŸæ–‡å­—åˆ—ã‚’è¦ç´ ã¨ã—ãŸäºŒæ¬¡å…ƒé…åˆ—ã‚’ç”Ÿæˆ
     for (var i = 0; i < tmp.length; ++i) {
         table[i] = tmp[i].split(',');
     }
@@ -11,20 +14,43 @@ function convertCSVtoArray(str) { // “Ç‚İ‚ñ‚¾CSVƒf[ƒ^‚ª•¶š—ñ‚Æ‚µ‚Ä“n‚³‚ê‚é
 }
 
 function changeHTML() {
-    var req = new XMLHttpRequest(); // HTTP‚Åƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş‚½‚ß‚ÌXMLHttpRrequestƒIƒuƒWƒFƒNƒg‚ğ¶¬
-    req.open("get", "sample.csv", true); // ƒAƒNƒZƒX‚·‚éƒtƒ@ƒCƒ‹‚ğw’è
-    req.send(null); // HTTPƒŠƒNƒGƒXƒg‚Ì”­s
-
-    // ƒŒƒXƒ|ƒ“ƒX‚ª•Ô‚Á‚Ä‚«‚½‚çconvertCSVtoArray()‚ğŒÄ‚Ô	
-    req.onload = function () {
-        var table = convertCSVtoArray(req.responseText); // “n‚³‚ê‚é‚Ì‚Í“Ç‚İ‚ñ‚¾CSVƒf[ƒ^
-        document.getElementById('table').innerHTML = '<img src="test.jpg" alt="neko" />';
-        var elm = document.getElementById('table_text');
-        if (table[1][0] == "0001") {
-            elm.textContent = table[1][2];
-        }
-        else {
-            elm.textContent = table[0][2];
-        }
+    var table = convertCSVtoArray(req.responseText); // æ¸¡ã•ã‚Œã‚‹ã®ã¯èª­ã¿è¾¼ã‚“ã CSVãƒ‡ãƒ¼ã‚¿
+    document.getElementById('table').innerHTML = '<img src="test.jpg" alt="neko" />';
+    var elm = document.getElementById('table_text');
+    if (table[1][0] == "0001") {
+        elm.textContent = table[1][2];
+    }
+    else {
+        elm.textContent = table[0][2];
     }
 }
+
+function openTable(id) {
+    id = Number(id);
+    var table = convertCSVtoArray(req.responseText); // æ¸¡ã•ã‚Œã‚‹ã®ã¯èª­ã¿è¾¼ã‚“ã CSVãƒ‡ãƒ¼ã‚¿
+    alert(table[id][2]);
+}
+
+function reloadTable() {
+    req.open("get", CSV_FILE, false);
+    req.send(null); // HTTPãƒªã‚¯ã‚¨ã‚¹ãƒˆã®ç™ºè¡Œ
+}
+
+function init() {
+    req.open("get", CSV_FILE, true); // ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æŒ‡å®š
+    req.send(null); // HTTPãƒªã‚¯ã‚¨ã‚¹ãƒˆã®ç™ºè¡Œ
+    req.onload = function () {
+        var table = convertCSVtoArray(req.responseText); // æ¸¡ã•ã‚Œã‚‹ã®ã¯èª­ã¿è¾¼ã‚“ã CSVãƒ‡ãƒ¼ã‚¿
+        alert(table[0][2]);
+        var table = convertCSVtoArray(req.responseText); // æ¸¡ã•ã‚Œã‚‹ã®ã¯èª­ã¿è¾¼ã‚“ã CSVãƒ‡ãƒ¼ã‚¿
+        var buttons = '';
+        for (var i = 0; i < table.length; i++) {
+            buttons += '<button onclick="openTable(' + table[i][3] + ');">';
+            buttons += table[i][0];
+            buttons += '</button >';
+        }
+        document.getElementById('ids').innerHTML = buttons;
+    }
+}
+
+init();
