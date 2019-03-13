@@ -1,3 +1,5 @@
-﻿0001,itemA,500yen
-0002,itemB,300yen
-0003,itemC,400yen
+0001,itemA,600yen,0
+0002,itemB,300yen,1
+0003,itemC,400yen,2
+0004,itemC,400yen,3
+0005,itemC,400yen,4
